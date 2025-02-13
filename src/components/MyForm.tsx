@@ -82,6 +82,7 @@ const MyForm = ({
 
   useEffect(() => {
     if (editValues) reset(editValues.data);
+    else reset(intitalFormValues);
   }, [editValues]);
 
   const handleSelectChange = (name: keyof FormData, value: string) => {

@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import ReactFlow, {
   Node,
   MiniMap,
@@ -23,8 +24,9 @@ export default function FlowGraph() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const addNode = (data: FormData) => {
+    const newNodeId = uuidv4();
     const newNode: Node = {
-      id: `${nodes.length + 1}`,
+      id: newNodeId,
       data: { ...data, label: data.name, type: data.name },
       position: { x: Math.random() * 400, y: Math.random() * 400 },
     };
@@ -66,6 +68,7 @@ export default function FlowGraph() {
 
   const onNodesDelete = useCallback(
     (deleted: Node[]) => {
+      setEditValues(undefined);
       setEdges(
         deleted.reduce((acc, node) => {
           const incomers = getIncomers(node, nodes, edges);
@@ -77,6 +80,7 @@ export default function FlowGraph() {
           const createdEdges = incomers.flatMap(({ id: source }) =>
             outgoers.map(({ id: target }) => ({
               id: `${source}->${target}`,
+              animated: true,
               source,
               target,
             }))
