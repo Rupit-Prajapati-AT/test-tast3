@@ -1,56 +1,23 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button, Flex } from "@chakra-ui/react";
 import { Node } from "reactflow";
 import { useEffect } from "react";
-import CustomSelect from "./CustomSelect";
-import CustomInput from "./CustomInput";
-
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(3, { message: "Min 3 letter required." })
-      .max(20, { message: "Max 20 letters." }),
-    userName: z.string().optional(),
-    habit: z.string().optional(),
-    node: z.string().min(1, { message: "Please select a node" }),
-  })
-  .superRefine((data, ctx) => {
-    if (data.node === "usernode" && !data.userName) {
-      ctx.addIssue({
-        path: ["userName"],
-        message: "Username is required for User Node.",
-        code: z.ZodIssueCode.custom,
-      });
-    }
-    if (data.node === "habitnode" && !data.habit) {
-      ctx.addIssue({
-        path: ["habit"],
-        message: "Habit is required for Habit Node.",
-        code: z.ZodIssueCode.custom,
-      });
-    }
-  });
-
-export type FormData = z.infer<typeof schema>;
+import { CustomInput, CustomSelect } from "./FormFields";
+import {
+  FormData,
+  formSchema,
+  intitalFormValues,
+} from "./FormValuesAndValidation";
 
 export interface MyFormProps {
-  addNode: (data: FormData) => void;
-  updateNode: (data: FormData) => void;
+  upsertNode: (data: FormData) => void;
   editValues: Node | undefined;
   setEditValues: React.Dispatch<React.SetStateAction<Node | undefined>>;
 }
 
-const MyForm = ({
-  addNode,
-  updateNode,
-  setEditValues,
-  editValues,
-}: MyFormProps) => {
-  const intitalFormValues = { name: "", userName: "", habit: "", node: "" };
+const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
   const {
     reset,
     register,
@@ -59,7 +26,7 @@ const MyForm = ({
     setValue,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
     defaultValues: editValues?.data || intitalFormValues,
   });
 
@@ -70,8 +37,7 @@ const MyForm = ({
       userName: nodeType ? data.userName : "",
       habit: !nodeType ? data.habit : "",
     };
-    if (editValues) updateNode(newNodeData);
-    else addNode(newNodeData);
+    upsertNode(newNodeData);
     reset(intitalFormValues);
   };
 

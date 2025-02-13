@@ -15,46 +15,46 @@ import ReactFlow, {
   getConnectedEdges,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { FormData } from "@/components/MyForm";
 import Sidebar from "@/components/Sidebar";
+import { FormData } from "@/components/Form";
 export default function FlowGraph() {
   const [editValues, setEditValues] = useState<Node | undefined>();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  const addNode = (data: FormData) => {
-    const newNodeId = uuidv4();
-    const newNode: Node = {
-      id: newNodeId,
-      data: { ...data, label: data.name, type: data.name },
-      position: { x: Math.random() * 400, y: Math.random() * 400 },
-    };
-    setNodes((nds) => [...nds, newNode]);
-    if (nodes.length > 0) {
-      setEdges((eds) =>
-        addEdge(
-          {
-            id: `e${nodes.length}-${nodes.length + 1}`,
-            source: nodes[nodes.length - 1].id,
-            target: newNode.id,
-            animated: true,
-          },
-          eds
+  const upsertNode = (data: FormData) => {
+    if (editValues) {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === editValues?.id
+            ? { ...node, data: { ...data, label: data.name } }
+            : node
         )
       );
+      setEditValues(undefined);
+    } else {
+      const newNodeId = uuidv4();
+      const newNode: Node = {
+        id: newNodeId,
+        data: { ...data, label: data.name, type: data.name },
+        position: { x: Math.random() * 400, y: Math.random() * 400 },
+      };
+      setNodes((nds) => [...nds, newNode]);
+      if (nodes.length > 0) {
+        setEdges((eds) =>
+          addEdge(
+            {
+              id: `e${nodes.length}-${nodes.length + 1}`,
+              source: nodes[nodes.length - 1].id,
+              target: newNode.id,
+              animated: true,
+            },
+            eds
+          )
+        );
+      }
     }
-  };
-
-  const updateNode = (updatedData: FormData) => {
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === editValues?.id
-          ? { ...node, data: { ...updatedData, label: updatedData.name } }
-          : node
-      )
-    );
-    setEditValues(undefined);
   };
 
   const onNodeClick = (_: React.MouseEvent, node: Node) => {
@@ -98,9 +98,8 @@ export default function FlowGraph() {
       <Sidebar
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        addNode={addNode}
+        upsertNode={upsertNode}
         editValues={editValues}
-        updateNode={updateNode}
         setEditValues={setEditValues}
       />
       <div style={{ flex: 1 }}>

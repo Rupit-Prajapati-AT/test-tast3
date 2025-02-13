@@ -8,7 +8,7 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "@/components/ui/select";
+} from "@/components/Form/FormFields/ui/select";
 import FieldError, { FieldErrorProps } from "./FieldError";
 interface CustomSelectProps<T> extends FieldErrorProps {
   items: { value: string; label: string }[];
