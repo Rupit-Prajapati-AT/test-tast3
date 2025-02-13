@@ -65,18 +65,13 @@ const MyForm = ({
 
   const onSubmit = (data: FormData) => {
     const nodeType = selectedNode === "usernode" ? true : false;
-    if (editValues)
-      updateNode({
-        ...data,
-        userName: nodeType ? data.userName : "",
-        habit: !nodeType ? data.habit : "",
-      });
-    else
-      addNode({
-        ...data,
-        userName: nodeType ? data.userName : "",
-        habit: !nodeType ? data.habit : "",
-      });
+    const newNodeData = {
+      ...data,
+      userName: nodeType ? data.userName : "",
+      habit: !nodeType ? data.habit : "",
+    };
+    if (editValues) updateNode(newNodeData);
+    else addNode(newNodeData);
     reset(intitalFormValues);
   };
 
@@ -84,11 +79,10 @@ const MyForm = ({
     setEditValues(undefined);
     reset(intitalFormValues);
   };
-  console.log(watch());
 
   useEffect(() => {
     if (editValues) reset(editValues.data);
-  }, [editValues, reset]);
+  }, [editValues]);
 
   const handleSelectChange = (name: keyof FormData, value: string) => {
     setValue(name, value);

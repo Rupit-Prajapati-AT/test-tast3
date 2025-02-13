@@ -16,10 +16,9 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { FormData } from "@/components/MyForm";
 import Sidebar from "@/components/Sidebar";
-
 export default function FlowGraph() {
   const [editValues, setEditValues] = useState<Node | undefined>();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
@@ -37,6 +36,7 @@ export default function FlowGraph() {
             id: `e${nodes.length}-${nodes.length + 1}`,
             source: nodes[nodes.length - 1].id,
             target: newNode.id,
+            animated: true,
           },
           eds
         )
@@ -61,7 +61,7 @@ export default function FlowGraph() {
   };
 
   const onConnect = (connection: Connection) => {
-    setEdges((eds) => addEdge(connection, eds));
+    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
   };
 
   const onNodesDelete = useCallback(
@@ -103,11 +103,11 @@ export default function FlowGraph() {
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          onConnect={onConnect}
+          onNodeClick={onNodeClick}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onNodesDelete={onNodesDelete}
-          onConnect={onConnect}
-          onNodeClick={onNodeClick}
           fitView
         >
           <Background />
