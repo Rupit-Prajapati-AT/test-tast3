@@ -1,14 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ReactFlow, {
-  addEdge,
-  Background,
-  Controls,
   Node,
-  Connection,
   MiniMap,
+  addEdge,
+  Controls,
+  Background,
+  Connection,
+  getIncomers,
+  getOutgoers,
   useNodesState,
   useEdgesState,
+  getConnectedEdges,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { FormData } from "@/components/MyForm";
@@ -57,8 +60,34 @@ export default function FlowGraph() {
     setEditValues(node);
   };
 
-  const onConnect = (connection: Connection) =>
+  const onConnect = (connection: Connection) => {
     setEdges((eds) => addEdge(connection, eds));
+  };
+
+  const onNodesDelete = useCallback(
+    (deleted: Node[]) => {
+      setEdges(
+        deleted.reduce((acc, node) => {
+          const incomers = getIncomers(node, nodes, edges);
+          const outgoers = getOutgoers(node, nodes, edges);
+          const connectedEdges = getConnectedEdges([node], edges);
+          const remainingEdges = acc.filter(
+            (edge) => !connectedEdges.includes(edge)
+          );
+          const createdEdges = incomers.flatMap(({ id: source }) =>
+            outgoers.map(({ id: target }) => ({
+              id: `${source}->${target}`,
+              source,
+              target,
+            }))
+          );
+
+          return [...remainingEdges, ...createdEdges];
+        }, edges)
+      );
+    },
+    [nodes, edges]
+  );
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>
@@ -76,6 +105,7 @@ export default function FlowGraph() {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onNodesDelete={onNodesDelete}
           onConnect={onConnect}
           onNodeClick={onNodeClick}
           fitView
