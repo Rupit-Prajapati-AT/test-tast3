@@ -24,7 +24,7 @@ const CustomInput = <T extends FieldValues>({
         placeholder={`Enter your ${label}`}
         padding={2}
         _focus={{ borderColor: "white" }}
-        _placeholder={{ color: "gray.200" }}
+        variant={"subtle"}
       />
       <FieldError error={error} />
     </div>

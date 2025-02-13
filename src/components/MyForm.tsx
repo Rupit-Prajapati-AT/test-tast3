@@ -144,7 +144,12 @@ const MyForm = ({
       )}
 
       <Flex gap={2}>
-        <Button flexGrow={1} type="button" onClick={handleReset}>
+        <Button
+          variant={"subtle"}
+          flexGrow={1}
+          type="button"
+          onClick={handleReset}
+        >
           {editValues ? "Cancel" : "Reset"}
         </Button>
         <Button flexGrow={1} type="submit">

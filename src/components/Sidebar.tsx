@@ -14,10 +14,10 @@ const Sidebar: FC<SideBarProps> = ({ isOpen, setIsOpen, ...props }) => {
       <Box
         w={isOpen ? "350px" : "60px"}
         h="100vh"
-        bg="gray.800"
-        color="white"
         transition="width 0.3s"
         p={3}
+        borderRight={"1px solid red"}
+        borderColor={"gray.100"}
       >
         <IconButton
           aria-label="Toggle Menu"
@@ -26,8 +26,8 @@ const Sidebar: FC<SideBarProps> = ({ isOpen, setIsOpen, ...props }) => {
             props.setEditValues(undefined);
           }}
           color="white"
-          bg="transparent"
-          _hover={{ bg: "gray.600" }}
+          bg="gray.900"
+          _hover={{ bg: "gray.700" }}
           mb={4}
         >
           <FiMenu />

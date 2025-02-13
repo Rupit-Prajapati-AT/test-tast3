@@ -36,6 +36,7 @@ const CustomSelect = <T extends FieldValues>({
         collection={collection}
         value={value ? [value] : []}
         onValueChange={(e) => onChange(e.value[0])}
+        variant={"subtle"}
       >
         <SelectLabel fontSize={16}>Select {String(name)}</SelectLabel>
         <SelectTrigger>
