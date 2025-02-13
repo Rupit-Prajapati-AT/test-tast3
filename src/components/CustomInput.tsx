@@ -23,8 +23,9 @@ const CustomInput = <T extends FieldValues>({
         {...registerReturn}
         placeholder={`Enter your ${label}`}
         padding={2}
-        _focus={{ borderColor: "white" }}
         variant={"subtle"}
+        outline={"none"}
+        border={"none"}
       />
       <FieldError error={error} />
     </div>
