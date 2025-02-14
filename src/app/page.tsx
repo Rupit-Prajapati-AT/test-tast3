@@ -36,6 +36,7 @@ export default function FlowGraph() {
    *
    * @param {FormData} data - The data used to update an existing node or create a new node.
    */
+
   const upsertNode = (data: FormData) => {
     if (editValues) {
       setNodes((nds) =>
@@ -77,6 +78,7 @@ export default function FlowGraph() {
    * @param {React.MouseEvent} _ - The mouse event (unused).
    * @param {Node} node - The node that was clicked.
    */
+
   const onNodeClick = (_: React.MouseEvent, node: Node) => {
     setIsOpen(true);
     setEditValues(node);
