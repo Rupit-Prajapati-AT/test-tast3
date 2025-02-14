@@ -1,5 +1,5 @@
-import MyForm from "./MyForm";
-import { formSchema } from "./FormValuesAndValidation";
-import type { FormData } from "./FormValuesAndValidation";
-import type { MyFormProps } from "./MyForm";
-export { MyForm, formSchema, MyFormProps, FormData };
+import Form from "./Form";
+import { formSchema } from "./FormConfig";
+import type { FormData } from "./FormConfig";
+import type { FormProps } from "./Form";
+export { Form, formSchema, FormProps, FormData };

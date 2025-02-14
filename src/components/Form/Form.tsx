@@ -4,20 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Flex } from "@chakra-ui/react";
 import { Node } from "reactflow";
 import { useEffect } from "react";
-import { CustomInput, CustomSelect } from "./FormFields";
-import {
-  FormData,
-  formSchema,
-  intitalFormValues,
-} from "./FormValuesAndValidation";
+import { FormInput, FormSelect } from "./Fields";
+import { FormData, formSchema, intitalFormValues } from "./FormConfig";
 
-export interface MyFormProps {
+export interface FormProps {
   upsertNode: (data: FormData) => void;
   editValues: Node | undefined;
   setEditValues: React.Dispatch<React.SetStateAction<Node | undefined>>;
 }
 
-const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
+const Form = ({ upsertNode, setEditValues, editValues }: FormProps) => {
   const {
     reset,
     register,
@@ -77,13 +73,13 @@ const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
         gap: 10,
       }}
     >
-      <CustomInput
+      <FormInput
         label="Name"
         registerReturn={register("name")}
         error={errors.name}
         name="name"
       />
-      <CustomSelect
+      <FormSelect
         value={watch("node")}
         registerReturn={register("node")}
         items={nodeOptions}
@@ -92,7 +88,7 @@ const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
         onChange={(value) => handleSelectChange("node", value)}
       />
       {selectedNode === "usernode" && (
-        <CustomInput
+        <FormInput
           label="Username"
           registerReturn={register("userName")}
           error={errors.userName}
@@ -100,7 +96,7 @@ const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
         />
       )}
       {selectedNode === "habitnode" && (
-        <CustomSelect
+        <FormSelect
           value={watch("habit")}
           registerReturn={register("habit")}
           items={options}
@@ -127,4 +123,4 @@ const MyForm = ({ upsertNode, setEditValues, editValues }: MyFormProps) => {
   );
 };
 
-export default MyForm;
+export default Form;

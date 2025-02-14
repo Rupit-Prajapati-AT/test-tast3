@@ -1,5 +1,6 @@
 {
-  "name": "test-task-3",
+  "name": "react-flow-test-task",
+  "description": "A dynamic React Flow-based project that allows users to add and update nodes using a form. The form integrates with React Hook Form and Zod for validation, ensuring efficient state management and seamless user interactions. Features include adding new nodes, editing existing ones, and linking nodes visually within the flow",
   "version": "0.1.0",
   "private": true,
   "scripts": {

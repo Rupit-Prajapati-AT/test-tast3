@@ -23,6 +23,20 @@ export default function FlowGraph() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  /**
+   * Updates an existing node if `editValues` is set, otherwise creates a new node.
+   *
+   * If updating, the function maps over the current nodes, updating the node with
+   * the same id as `editValues` by replacing its data with the provided `data`, and
+   * sets `editValues` to undefined.
+   *
+   * If creating, a new node is generated with a unique id, random position, and
+   * the provided `data`. The new node is added to the nodes state. If there are
+   * existing nodes, an edge is created connecting the last node and the new node.
+   *
+   * @param {FormData} data - The data used to update an existing node or create a new node.
+   */
+
   const upsertNode = (data: FormData) => {
     if (editValues) {
       setNodes((nds) =>
@@ -56,6 +70,14 @@ export default function FlowGraph() {
       }
     }
   };
+
+  /**
+   * Handles the node click event by opening the sidebar and setting
+   * the clicked node as the current `editValues`.
+   *
+   * @param {React.MouseEvent} _ - The mouse event (unused).
+   * @param {Node} node - The node that was clicked.
+   */
 
   const onNodeClick = (_: React.MouseEvent, node: Node) => {
     setIsOpen(true);

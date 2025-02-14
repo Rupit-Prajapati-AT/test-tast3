@@ -1,9 +1,9 @@
 import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 import React, { FC } from "react";
-import { MyForm, MyFormProps } from "./Form";
+import { Form, FormProps } from "../Form";
 
-interface SideBarProps extends MyFormProps {
+interface SideBarProps extends FormProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -32,7 +32,7 @@ const Sidebar: FC<SideBarProps> = ({ isOpen, setIsOpen, ...props }) => {
         >
           <FiMenu />
         </IconButton>
-        {isOpen && <MyForm {...props} />}
+        {isOpen && <Form {...props} />}
       </Box>
     </Flex>
   );

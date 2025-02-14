@@ -8,9 +8,9 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "@/components/Form/FormFields/ui/select";
-import FieldError, { FieldErrorProps } from "./FieldError";
-interface CustomSelectProps<T> extends FieldErrorProps {
+} from "@/components/Form/Fields/ui/select";
+import FieldError, { FormErrorProps } from "./FormError";
+interface CustomSelectProps<T> extends FormErrorProps {
   items: { value: string; label: string }[];
   registerReturn: UseFormRegisterReturn;
   name: keyof T;

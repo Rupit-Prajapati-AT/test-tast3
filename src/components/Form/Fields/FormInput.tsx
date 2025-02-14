@@ -1,9 +1,9 @@
 import { Input } from "@chakra-ui/react";
 import React from "react";
 import { FieldValues, UseFormRegisterReturn } from "react-hook-form";
-import FieldError, { FieldErrorProps } from "./FieldError";
+import FormError, { FormErrorProps } from "./FormError";
 
-export interface CustomInputProps<T> extends FieldErrorProps {
+export interface CustomInputProps<T> extends FormErrorProps {
   registerReturn: UseFormRegisterReturn;
   name: keyof T;
   label: string;
@@ -27,7 +27,7 @@ const CustomInput = <T extends FieldValues>({
         outline={"none"}
         border={"none"}
       />
-      <FieldError error={error} />
+      <FormError error={error} />
     </div>
   );
 };
